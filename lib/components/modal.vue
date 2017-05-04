@@ -27,9 +27,6 @@
 
                         <header class="modal-header" ref="header" v-if="!hideHeader">
                             <slot name="modal-header">
-                                <h5 class="modal-title" :id="id ? (id + '_modal_title') : null">
-                                    <slot name="modal-title">{{title}}</slot>
-                                </h5>
                                 <button type="button"
                                         v-if="!hideHeaderClose"
                                         class="close"
@@ -38,6 +35,9 @@
                                 >
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                                <h5 class="modal-title" :id="id ? (id + '_modal_title') : null">
+                                    <slot name="modal-title">{{title}}</slot>
+                                </h5>
                             </slot>
                         </header>
 
@@ -57,7 +57,7 @@
             </div>
 
             <div key="modal-backdrop"
-                 :class="['modal-backdrop',{fade: fade, show: is_visible}]"
+                 :class="['modal-backdrop',{fade: fade, show: is_visible, in: is_visible}]"
                  v-if="is_visible"
             ></div>
         </transition-group>
