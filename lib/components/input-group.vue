@@ -1,12 +1,12 @@
 <template>
-    <div :class="classObject">
+    <div :class="classObject" role="group">
         <slot name="left">
             <div v-if="left" class="input-group-addon" v-html="left"></div>
         </slot>
 
         <slot></slot>
 
-        <slot name="left">
+        <slot name="right">
             <div v-if="right" class="input-group-addon" v-html="right"></div>
         </slot>
     </div>

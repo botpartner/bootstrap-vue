@@ -1,21 +1,25 @@
 <template>
-    <li :class="['nav-item','dropdown', {dropup, show: visible}]">
+    <li :id="id || null" :class="dropdownClasses">
 
         <a :class="['nav-link', dropdownToggle, {disabled}]"
-           href=""
+           href="#"
            ref="button"
+           :id="id ? (id + '__BV_button_') : null"
            aria-haspopup="true"
-           :aria-expanded="visible"
+           :aria-expanded="visible ? 'true' : 'false'"
            :disabled="disabled"
            @click.stop.prevent="toggle($event)"
+           @keydown.enter.stop.prevent="toggle($event)"
+           @keydown.space.stop.prevent="toggle($event)"
         >
-            <slot name="text"><span v-html="text"></span></slot>
+            <slot name="button-content"><slot name="text"><span v-html="text"></span></slot></slot>
         </a>
 
-        <div :class="['dropdown-menu',{'dropdown-menu-right': right}]"
+        <div :class="menuClasses"
              role="menu"
              ref="menu"
-             :aria-labelledby="'b_dropdown_button_' + _uid"
+             :aria-labelledby="id ? (id + '__BV_button_') : null"
+             @mouseover="onMouseOver"
              @keyup.esc="onEsc"
              @keydown.tab="onTab"
              @keydown.up="focusNext($event,true)"
@@ -28,34 +32,48 @@
 </template>
 
 <script>
-    import clickOut from '../mixins/clickout';
-    import dropdown from '../mixins/dropdown';
+    import { dropdownMixin } from '../mixins';
 
     export default {
-        mixins: [
-            clickOut,
-            dropdown
-        ],
-        data() {
-            return {
-                visible: false
-            };
-        },
+        mixins: [dropdownMixin],
         computed: {
             dropdownToggle() {
-                return this.caret ? 'dropdown-toggle' : '';
+                return this.noCaret ? '' : 'dropdown-toggle';
+            },
+            dropdownClasses() {
+                return [
+                    'nav-item',
+                    'b-nav-dropdown',
+                    'dropdown',
+                    this.dropup ? 'dropup' : '',
+                    this.visible ? 'show' : ''
+                ];
+            },
+            menuClasses() {
+                return [
+                    'dropdown-menu',
+                    this.right ? 'dropdown-menu-right': '',
+                    this.visible ? 'show' : ''
+                ];
             }
         },
         props: {
-            caret: {
+            noCaret: {
                 type: Boolean,
-                default: true
-            }
-        },
-        methods: {
-            clickOutListener() {
-                this.visible = false;
+                default: false
             }
         }
     };
 </script>
+
+<style>
+.b-nav-dropdown .dropdown-item:focus:not(.active),
+.b-nav-dropdown .dropdown-item:hover:not(.active) {
+    /* @See https://github.com/twbs/bootstrap/issues/23329 */
+    box-shadow: inset 0px 0px 400px 110px rgba(0, 0, 0, .09);
+}
+
+.b-nav-dropdown .dropdown-item:active {
+    box-shadow: initial;
+}
+</style>
