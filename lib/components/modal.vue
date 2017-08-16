@@ -8,7 +8,7 @@
                           leave-active-class=""
                           leave-to-class="hidden"
         >
-            <div :class="['modal',{fade: !noFade, show: is_visible}]"
+            <div :class="['modal',{fade: !noFade, show: is_visible, in: is_visible}]"
                  :id="id || null"
                  role="dialog"
                  ref="modal"
@@ -34,9 +34,6 @@
                                 v-if="!hideHeader"
                         >
                             <slot name="modal-header">
-                                <h5 :is="titleTag" class="modal-title">
-                                    <slot name="modal-title">{{title}}</slot>
-                                </h5>
                                 <button type="button"
                                         v-if="!hideHeaderClose"
                                         class="close"
@@ -45,6 +42,9 @@
                                 >
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                                <h5 :is="titleTag" class="modal-title">
+                                    <slot name="modal-title">{{title}}</slot>
+                                </h5>
                             </slot>
                         </header>
 
