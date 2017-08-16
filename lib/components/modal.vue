@@ -8,7 +8,7 @@
                           leave-active-class=""
                           leave-to-class="hidden"
         >
-            <div :class="['modal',{fade: !noFade, show: is_visible}]"
+            <div :class="['modal',{fade: !noFade, show: is_visible, in: is_visible}]"
                  :id="id || null"
                  role="dialog"
                  ref="modal"
