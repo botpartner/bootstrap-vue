@@ -1,7 +1,7 @@
 <template>
     <div>
         <span ref="trigger"><slot></slot></span>
-        <div :class="['popover', 'fade', classState ? 'show' : '', popoverAlignment]"
+        <div :class="['popover', 'fade', classState ? 'show' : '', popoverAlignment, 'in']"
              :style="popoverStyle"
              tabindex="-1"
              ref="popover"
